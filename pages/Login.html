@@ -1,71 +1,52 @@
 <!DOCTYPE html>
-
-
 <html>
-    <head>
-        <title> Login</title>
-		<script src="../jquery-3.3.1.min.js"/>
-		<style>
-		#di{position:fixed;
-		bottom:0;}
-		</style>
-    </head>
-    <body>
-       <div class="popup">
-       <h2> Register</h2>
-       <p>Please enter your details here</p>
-        <form method="get" action="" onsubmit="return store(this);" id="register">
-           <label for="email">User Name</label>
-            <input id="username" type="text" placeholder="Select A User Name" required value=""/><br/>
-            <label for="pass">Password</label>
-            <input id="password" type="password" placeholder="Select A Password" required value=""/><br/>
-            <input type="submit" value="Register" />
-        </form>
-        </div>
-        <br />
-        
-        <div class="popup">
-        <h2>Welcom Guest!</h2>
-        <p>Please enter your login and password here</p>
-         <form method="get" action="" onsubmit="return login(this);" id="signon">
-           <label for="email">User Name</label>
-            <input id="username" type="text" placeholder="Enter UserName" required value=""/><br />
-            <label for="password">Password</label>
-            <input id="password" type="password" placeholder="Your Password" required value=""/><br />
-            <input type="submit" value="Log in" />
-        </form>
-        <a class="close" href="#close"></a>
-        </div>
-        <script type="text/javascript">
-        var name=document.getElementById('name');
-            var password=document.getElementById('password');
-            
-            function store(theForm){
-                document.getElementById('welcomeMessage').innerHTML="";
-                var inputUsername=theForm["username"];
-                var inputPassword=theForm["password"];
-                localStorage.setItem("username", inputUsername.value);
-                localStorage.setItem("password", inputPassword.value);
-                document.getElementById('welcomeMessage').innerHTML="Welcome " +
-                    localStorage.getItem('username') + "!";
-                return false;
+<head>
+    <title>Learning JavaScript</title>
+</head>
+<body>
+    <form id="register-form">
+        <input id="name1" type="text" placeholder="Name" required value="" />
+        <input id="pw" type="password" placeholder="Password" required value="" />
+        <input id="rgstr_btn" type="submit" value="get Account" onClick="store()" />
+    </form>
+
+    <form id="login-form">
+        <input id="userName" type="text" placeholder="Enter Username" required value="" />
+        <input id="userPw" type="password" placeholder="Enter Password" required value="" />
+        <input id="login_btn" type="submit" value="Login" onClick="check()" />
+    </form>
+
+
+    <script>
+        // Name and Password from the register-form
+        var name = document.getElementById('name1');
+        var pw = document.getElementById('pw');
+
+        // storing input from register-form
+        function store() {
+            localStorage.setItem('name1', name1.value);
+            localStorage.setItem('pw', pw.value);
+        }
+
+        // check if stored data from register-form is equal to entered data in the   login-form
+        function check() {
+
+            // stored data from the register-form
+            var storedName = localStorage.getItem('name1');
+            var storedPw = localStorage.getItem('pw');
+
+            // entered data from the login-form
+            var userName = document.getElementById('userName');
+            var userPw = document.getElementById('userPw');
+
+            // check if stored data from register-form is equal to data from login form
+            if (userName.value == storedName && userPw.value == storedPw) {
+                alert('You are loged in.');
+            } else {
+                alert('ERROR.');
             }
-            
-            function login(theForm){
-                document.getElementById('welcomeMessage').innerHTML="";
-                var inputUsername=theForm["username"];
-                var inputPassword=theForm["password"];
-                var username=inputUsername.value;
-                var password=inputPassword.value;
-                if((username==localStorage.getItem('username')) &&(password==localStorage.getItem('password'))){
-                    document.getElementById('welcomeMessage').innerHTML="Welcome " +
-                        localStorage.getItem('username') + "!";
-                    
-                } else{
-                    document.getElementById('welcomeMessage').innerHTML="Invalid Log-in";
-                }
-                return false;
-            }
-        </script>
-    </body>
+        }
+    </script>
+
+</body>
 </html>
