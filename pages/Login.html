@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width-device-width, initial-scale=1.0">
     <link href="../css/LoginStyle.css" rel="stylesheet" />
-    <script src="../css/LoginScript.js"></script>
+    <script src="../js/LoginScript.js"></script>
 </head>
-<body>
+<body onload="init()">
     <div class="container">
         <header class="headerbar top"><h1>Registration</h1></header>
         <aside class="leftbar">
             <div>
                 <fieldset>
-                    <label for="firstname">First Name</label>
+                    <label for="firstname"><span>First Name</span></label>
                     <input type="text" placeholder="enter first name" id="firstname">
                 </fieldset>
                 <fieldset>
@@ -50,7 +50,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody id="tablerows"></tbody>
             </table>
 
         </aside>
