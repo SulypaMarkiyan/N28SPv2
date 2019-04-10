@@ -1,52 +1,140 @@
-<!DOCTYPE html>
 <html>
 <head>
-    <title>Learning JavaScript</title>
-</head>
-<body>
-    <form id="register-form">
-        <input id="name1" type="text" placeholder="Name" required value="" />
-        <input id="pw" type="password" placeholder="Password" required value="" />
-        <input id="rgstr_btn" type="submit" value="get Account" onClick="store()" />
-    </form>
-
-    <form id="login-form">
-        <input id="userName" type="text" placeholder="Enter Username" required value="" />
-        <input id="userPw" type="password" placeholder="Enter Password" required value="" />
-        <input id="login_btn" type="submit" value="Login" onClick="check()" />
-    </form>
-
-
+    <title>Register</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width-device-width, initial-scale=1.0">
+    <link href="../css/LoginStyle.css" rel="stylesheet" />
     <script>
-        // Name and Password from the register-form
-        var name = document.getElementById('name1');
-        var pw = document.getElementById('pw');
 
-        // storing input from register-form
-        function store() {
-            localStorage.setItem('name1', name1.value);
-            localStorage.setItem('pw', pw.value);
-        }
+        var studentsArray = [];
 
-        // check if stored data from register-form is equal to entered data in the   login-form
-        function check() {
-
-            // stored data from the register-form
-            var storedName = localStorage.getItem('name1');
-            var storedPw = localStorage.getItem('pw');
-
-            // entered data from the login-form
-            var userName = document.getElementById('userName');
-            var userPw = document.getElementById('userPw');
-
-            // check if stored data from register-form is equal to data from login form
-            if (userName.value == storedName && userPw.value == storedPw) {
-                alert('You are loged in.');
-            } else {
-                alert('ERROR.');
+        function init() {
+            if (localStorage.studentRecord) {
+                studentsArray = JSON.parse(localStorage.studentsRecord);
+                for (var i = 0; i < studentsArray.length; i++) {
+                    prepareTableCell(studentsArray[i].firstname, studentsArray[i].lastname, studentsArray[i].rollnum, studentsArray[i].subject);
+                }
             }
         }
-    </script>
 
+        function onRegisterPressed() {
+
+            var firstName = document.getElementById("firstname").value;
+            var lastName = document.getElementById("lastname").value;
+            var rollNum = document.getElementById("rollnum").value;
+            var subject = document.getElementById("subject").value;
+
+            var stuObj = { firstname: firstName, lastname: lastName, rollnum: rollNum, subject: subject }
+            studentsArray.push(stuObj);
+
+            localStorage.studentsRecord = JSON.stringify(studentsArray);
+            prepareTableCell(firstName, lastName, rollNum, subject);
+
+
+
+            document.getElementById("firstname").value = "";
+            document.getElementById("lastname").value = "";
+            document.getElementById("rollnum").value = "";
+        }
+        // function onRegisterPressed(){
+
+        //   var firstName=document.getElementById("firstname").value;
+        //   var lastName=document.getElementById("lastname").value;
+        //   var rollNum=document.getElementById("rollnum").value;
+        //  var subject=document.getElementById("subject").value;
+
+        //  var table=document.getElementById("regtable");
+        //  var row=table.insertRow();
+        //   var firstNameCell=row.insertCell(0);
+        //   var lastNameCell=row.insertCell(1);
+        //  var rollNumCell=row.insertCell(2);
+        //  var subjectCell=row.insertCell(3);
+
+        //  firstNameCell.innerHTML=firstName;
+        //  lastNameCell.innerHTML=lastName;
+        //   rollNumCell.innerHTML=rollNum;
+        //   subjectCell.innerHTML=subject;
+
+        //clear fields
+
+        //  document.getElementById("firstname").value="";
+        //   document.getElementById("lastname").value="";
+        //  document.getElementById("rollnum").value="";
+        //  }
+
+        function prepareTableCell(firstName, lastName, rollNum, subject) {
+            var table = document.getElementById("regtable");
+            var row = table.insertRow();
+
+            var firstNameCell = row.insertCell(0);
+            var lastNameCell = row.insertCell(1);
+            var rollNumCell = row.insertCell(2);
+            var subjectCell = row.insertCell(3);
+            var actionCell = row.insertCell(4);
+
+            firstNameCell.innerHTML = firstName;
+            lastNameCell.innerHTML = lastName;
+            rollNumCell.innerHTML = rollNum;
+            subjectCell.innerHTML = subject;
+            actionCell.innerHTML = '<button>Edit</button><br/><button onclick="">Delete</button>';
+        }
+
+        function deleteTableRow(index) {
+            var table = document.getElementById("regtable");
+            table.removeRow(index);
+        }
+
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header class="headerbar top"><h1>Registration</h1></header>
+        <aside class="leftbar">
+            <div>
+                <fieldset>
+                    <label for="firstname">First Name</label>
+                    <input type="text" placeholder="enter first name" id="firstname">
+                </fieldset>
+                <fieldset>
+                    <label for="lastname">Last Name</label>
+                    <input type="text" placeholder="enter last name" id="lastname">
+                </fieldset>
+                <fieldset>
+                    <label for="rollnum">Roll Number</label>
+                    <input type="text" placeholder="enter Roll number" id="rollnum">
+                </fieldset>
+                <fieldset>
+                    <label for="subject">Subject</label>
+                    <select id="subject">
+                        <option value="Math">Math</option>
+                        <option value="Physics">Physics</option>
+                        <option value="Chemistry">Chemistry</option>
+                        <option value="English">English</option>
+                    </select>
+                </fieldset>
+                <fieldset>
+                    <label for="submit">&nbsp;</label>
+                    <button id="submit" onclick="onRegisterPressed()">Register</button>
+                </fieldset>
+            </div>
+        </aside>
+        <aside class="rightbar">
+
+            <table id="regtable">
+                <thead>
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Roll Number</th>
+                        <th>Subject</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+
+        </aside>
+        <footer class="headerbar bottom"></footer>
+    </div>
 </body>
 </html>
