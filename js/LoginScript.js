@@ -1,10 +1,10 @@
 ﻿var studentsArray = [];
 
 function init() {
-    if (localStorage.studentRecord) {
+    if (localStorage.studentsRecord) {
         studentsArray = JSON.parse(localStorage.studentsRecord);
         for (var i = 0; i < studentsArray.length; i++) {
-            prepareTableCell(studentsArray[i].firstname, studentsArray[i].lastname, studentsArray[i].rollnum, studentsArray[i].subject);
+            prepareTableCell(i,studentsArray[i].firstname, studentsArray[i].lastname, studentsArray[i].rollnum, studentsArray[i].subject);
         }
     }
 }
@@ -16,7 +16,7 @@ function onRegisterPressed() {
     var rollNum = document.getElementById("rollnum").value;
     var subject = document.getElementById("subject").value;
 
-    var stuObj = { firstname: firstName, lastname: lastName, rollnum: rollNum, subject: subject }
+    var stuObj = { firstname: firstName, lastname: lastName, rollnum: rollNum, subject: subject };
     studentsArray.push(stuObj);
 
     localStorage.studentsRecord = JSON.stringify(studentsArray);
@@ -54,7 +54,7 @@ function onRegisterPressed() {
 //  document.getElementById("rollnum").value="";
 //  }
 
-function prepareTableCell(firstName, lastName, rollNum, subject) {
+function prepareTableCell(index, firstName, lastName, rollNum, subject) {
     var table = document.getElementById("regtable");
     var row = table.insertRow();
 
@@ -63,15 +63,15 @@ function prepareTableCell(firstName, lastName, rollNum, subject) {
     var rollNumCell = row.insertCell(2);
     var subjectCell = row.insertCell(3);
     var actionCell = row.insertCell(4);
-
+    
     firstNameCell.innerHTML = firstName;
     lastNameCell.innerHTML = lastName;
     rollNumCell.innerHTML = rollNum;
     subjectCell.innerHTML = subject;
-    actionCell.innerHTML = '<button>Edit</button><br/><button onclick="">Delete</button>';
+    actionCell.innerHTML = '<button>Edit</button><br/><button onclick="deleteTableRow(' + index+')">Delete</button>';
 }
 
 function deleteTableRow(index) {
     var table = document.getElementById("regtable");
-    table.removeRow(index);
+    table.deleteRow(index+1);
 }
