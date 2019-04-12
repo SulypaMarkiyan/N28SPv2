@@ -1,106 +1,112 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<head>
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    
-    <title>Товари</title>
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+		
+		<title>Товари</title>
+	</head>
+	<body>
 
-</head>
-<body>
-    <div>Hello World!</div>
-    <script>
-        function chooseProduct(id) {
-            if (document.getElementById(id).checked) {
-                document.getElementById(id).parentNode.previousSibling.previousSibling.firstChild.disabled = false;
-            }
-            else {
-                document.getElementById(id).parentNode.previousSibling.previousSibling.firstChild.disabled = true;
-            }
-        };
+    		<script>
+	
+			if (localStorage.getItem("studentsRecord") == null)
+			{
+				document.location.href = "pages/Login.html";
+			}
 
-        let name = "Checkbox";
+			// alert(localStorage.getItem("studentsRecord"));
+			
+			function chooseProduct(id) {
+				if (document.getElementById(id).checked) 
+				{
+					document.getElementById(id).parentNode.previousSibling.previousSibling.firstChild.disabled = false;
+				}
+				else 
+				{
+					document.getElementById(id).parentNode.previousSibling.previousSibling.firstChild.disabled = true;
+			    	}
+			};
+		
+			let name = "Checkbox";
+		
+			function send() {
+				window.sessionStorage.clear();
+				for (var i = 1; i <= 5; i++) 
+				{
+					if (document.getElementById(name + i).checked) 
+					{
+						// alert(document.getElementById(name + i).parentNode.previousSibling.previousSibling.firstChild.value);
+						var Product = {
+							id: i,
+							nameProduct: document.getElementById(name + i).parentNode.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling.innerText,
+							priceProduct: document.getElementById(name + i).parentNode.previousSibling.previousSibling.previousSibling.previousSibling.innerText,
+							amount: document.getElementById(name + i).parentNode.previousSibling.previousSibling.firstChild.value
+						}
+						window.sessionStorage.setItem(i, JSON.stringify(Product));
+						// Для перевірки // Все працює
+						// alert(window.sessionStorage.getItem(i));
+					}
+				}
+       			};
+		
+		</script>
 
-        function send() {
-            window.sessionStorage.clear();
-
-            for (var i = 1; i <= 5; i++) {
-                if (document.getElementById(name + i).checked) {
-                    // alert(document.getElementById(name + i).parentNode.previousSibling.previousSibling.firstChild.value);
-
-
-                    var Product = {
-                        id: i,
-                        nameProduct: document.getElementById(name + i).parentNode.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling.previousSibling.innerText,
-                        priceProduct: document.getElementById(name + i).parentNode.previousSibling.previousSibling.previousSibling.previousSibling.innerText,
-                        amount: document.getElementById(name + i).parentNode.previousSibling.previousSibling.firstChild.value
-                    }
-
-                    window.sessionStorage.setItem(i, JSON.stringify(Product));
-
-                    // Для перевірки // Все працює
-                    // alert(window.sessionStorage.getItem(i));
-                }
-            }
-        };
-    </script>
-
-
-    <div class="col-12">
-        <table class="table table-dark">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Назва</th>
-                    <th scope="col">Ціна</th>
-                    <th scope="col">Кількість</th>
-                    <th scope="col">Вибрати</th>
-                </tr>
-            </thead>
-            <tbody id="bodyTable">
-                <tr id="tr1">
-                    <th scope="row">1</th>
-                    <td>Iphone X</td>
-                    <td>24700</td>
-                    <td><select class="form-control" id="Select1" disabled><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td>
-                    <td><input class="form-check-input ml-4" type="checkbox" id="Checkbox1" onchange="chooseProduct(id)"></td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Iphone 8</td>
-                    <td>15000</td>
-                    <td><select class="form-control" id="Select2" disabled><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
-                    <td><input class="form-check-input ml-4" type="checkbox" id="Checkbox2" onchange="chooseProduct(id)"></td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Iphone 7</td>
-                    <td>12000</td>
-                    <td><select class="form-control" id="Select3" disabled><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
-                    <td><input class="form-check-input ml-4" type="checkbox" id="Checkbox3" onchange="chooseProduct(id)"></td>
-                </tr>
-                <tr>
-                    <th scope="row">4</th>
-                    <td>Iphone 6</td>
-                    <td>5700</td>
-                    <td><select class="form-control" id="Select4" disabled><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
-                    <td><input class="form-check-input ml-4" type="checkbox" id="Checkbox4" onchange="chooseProduct(id)"></td>
-                </tr>
-                <tr>
-                    <th scope="row">5</th>
-                    <td>Iphone 5</td>
-                    <td>2999</td>
-                    <td><select class="form-control" id="Select5" disabled><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
-                    <td><input class="form-check-input ml-4" type="checkbox" id="Checkbox5" onchange="chooseProduct(id)"></td>
-                </tr>
-            </tbody>
-        </table>
-        <button type="button" class="btn btn-dark" onclick="send()">Надіслати</button>
-    </div>
+		<div class="col-12">
+			<table class="table table-dark">
+				<thead>
+					<tr>
+						<th scope="col"></th>
+						<th scope="col">Назва</th>
+						<th scope="col">Ціна</th>
+						<th scope="col">Кількість</th>
+						<th scope="col">Вибрати</th>
+					</tr>
+				</thead>
+				<tbody id="bodyTable">
+					<tr id="tr1">
+						<th scope="row">1</th>
+						<td>Iphone X</td>
+						<td>24700</td>
+						<td><select class="form-control" id="Select1" disabled><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option></select></td>
+						<td><input class="form-check-input ml-4" type="checkbox" id="Checkbox1" onchange="chooseProduct(id)"></td>
+					</tr>
+					<tr>
+						<th scope="row">2</th>
+						<td>Iphone 8</td>
+						<td>15000</td>
+						<td><select class="form-control" id="Select2" disabled><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+						<td><input class="form-check-input ml-4" type="checkbox" id="Checkbox2" onchange="chooseProduct(id)"></td>
+					</tr>
+					<tr>
+						<th scope="row">3</th>
+						<td>Iphone 7</td>
+						<td>12000</td>
+						<td><select class="form-control" id="Select3" disabled><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+						<td><input class="form-check-input ml-4" type="checkbox" id="Checkbox3" onchange="chooseProduct(id)"></td>
+					</tr>
+					<tr>
+						<th scope="row">4</th>
+						<td>Iphone 6</td>
+						<td>5700</td>
+						<td><select class="form-control" id="Select4" disabled><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+						<td><input class="form-check-input ml-4" type="checkbox" id="Checkbox4" onchange="chooseProduct(id)"></td>
+					</tr>
+					<tr>
+						<th scope="row">5</th>
+						<td>Iphone 5</td>
+						<td>2999</td>
+						<td><select class="form-control" id="Select5" disabled><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></td>
+						<td><input class="form-check-input ml-4" type="checkbox" id="Checkbox5" onchange="chooseProduct(id)"></td>
+					</tr>
+				</tbody>
+			</table>
+			<button type="button" class="btn btn-dark" onclick="send()">Надіслати</button>
+		</div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -108,26 +114,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-
-
     </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
