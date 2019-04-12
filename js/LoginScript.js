@@ -1,6 +1,7 @@
 ﻿var studentsArray = [];
 
 function init() {
+    document.getElementById("tablerows").innerHTML = "";
     if (localStorage.studentsRecord) {
         studentsArray = JSON.parse(localStorage.studentsRecord);
         for (var i = 0; i < studentsArray.length; i++) {
@@ -17,16 +18,19 @@ function onRegisterPressed() {
     var subject = document.getElementById("subject").value;
 
     var stuObj = { firstname: firstName, lastname: lastName, rollnum: rollNum, subject: subject };
-    studentsArray.push(stuObj);
+    if (selectedIndex === -1) {
+        studentsArray.push(stuObj);
+    } else {
+        studentsArray.splice(selectedIndex, 1, stuObj);
+    }
+    
 
     localStorage.studentsRecord = JSON.stringify(studentsArray);
-    prepareTableCell(firstName, lastName, rollNum, subject);
 
+    init();
+    onClarPressed();
 
-
-    document.getElementById("firstname").value = "";
-    document.getElementById("lastname").value = "";
-    document.getElementById("rollnum").value = "";
+    
 }
 // function onRegisterPressed(){
 
@@ -55,7 +59,7 @@ function onRegisterPressed() {
 //  }
 
 function prepareTableCell(index, firstName, lastName, rollNum, subject) {
-    var table = document.getElementById("regtable");
+    var table = document.getElementById("tablerows");
     var row = table.insertRow();
 
     var firstNameCell = row.insertCell(0);
@@ -68,10 +72,32 @@ function prepareTableCell(index, firstName, lastName, rollNum, subject) {
     lastNameCell.innerHTML = lastName;
     rollNumCell.innerHTML = rollNum;
     subjectCell.innerHTML = subject;
-    actionCell.innerHTML = '<button>Edit</button><br/><button onclick="deleteTableRow(' + index+')">Delete</button>';
+    actionCell.innerHTML = '<button onclick="onEditPressed('+index+')">Edit</button><br/><button onclick="deleteTableRow(' + index + ')">Delete</button>';
 }
 
 function deleteTableRow(index) {
-    var table = document.getElementById("regtable");
-    table.deleteRow(index+1);
+    //var table = document.getElementById("regtable");
+    //table.deleteRow(index + 1);
+    studentsArray.splice(index, 1);
+    localStorage.studentsRecord = JSON.stringify(studentsArray);
+    init();
+}
+
+function onClarPressed() {
+    selectedIndex = -1;
+    document.getElementById("firstname").value = "";
+    document.getElementById("lastname").value = "";
+    document.getElementById("rollnum").value = "";
+    document.getElementById("subject").value = "Math";
+    document.getElementById("submit").innerHTML = "Register";
+}
+var selectedIndex = -1;
+function onEditPressed(index) {
+    selectedIndex = index;
+    var stuObj = studentsArray[index];
+    document.getElementById("firstname").value = stuObj.firstname;
+    document.getElementById("lastname").value = stuObj.lastname;
+    document.getElementById("rollnum").value = stuObj.rollnum;
+    document.getElementById("subject").value = stuObj.subject;
+    document.getElementById("submit").innerHTML = "Update";
 }
